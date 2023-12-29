@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: url(./img/wall.avif);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            height: 100vh;
+        }
+
+        #clock2 {
+            width: 250px;
+            height: 250px;
+            margin: auto;
+            background: rgb(217, 181, 155);
+            border: 25px solid rgb(187, 146, 117);
+            border-radius: 50%;
+            position: relative;
+            top: 16%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #number {
+            position: absolute;
+            width: 225px;
+            z-index: 1;
+        }
+
+        #center {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        #bell {
+            width: 20px;
+            height: 300px;
+            top: 50%;
+            left: 46%;
+            position: absolute;
+            z-index: -1;
+            transition: transform 1.9s ease-in-out;
+            transform-origin: right top;
+        }
+
+        #bell img {
+            height: 400px;
+            left: -59px;
+            position: absolute;
+        }
+
+        #plate {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            margin: auto;
+            background: rgb(221, 209, 209);
+            border: 45px solid rgb(244, 242, 242);
+            z-index: 1;
+        }
+
+        #hour {
+            width: 25%;
+            height: 20px;
+            position: absolute;
+            top: calc(50% - 10px);
+            left: 25%;
+            transform-origin: right center;
+            display: flex;
+        }
+
+        #hour img {
+            width: 100%;
+            top: 10px;
+            left: 0;
+        }
+
+        #minute {
+            width: 40%;
+            height: 20px;
+            position: absolute;
+            top: calc(50% - 10px);
+            left: 10%;
+            transform-origin: right center;
+            display: flex;
+        }
+
+        #minute img {
+            width: 100%;
+            top: 10px;
+            left: 0;
+        }
+
+        #body {
+            width: 300px;
+            height: 500px;
+            top: 125px;
+            background-color: rgb(94, 55, 27);
+            position: absolute;
+            z-index: -1;
+        }
+
+        #edge {
+            width: 25px;
+            height: 500px;
+            top: 125px;
+            left: -27px;
+            background-color: rgb(184, 106, 50);
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+            z-index: 1;
+        }
+
+        #edge::before {
+            content: '';
+            width: 25px;
+            height: 500px;
+            left: 279px;
+            background-color: rgb(184, 106, 50);
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+        }
+
+        #foot {
+            width: 375px;
+            height: 50px;
+            top: 620px;
+            background: linear-gradient(to bottom,
+                    rgb(224, 218, 218) 0%,
+                    rgb(224, 218, 218) 15%,
+                    rgb(184, 106, 50) 15%,
+                    rgb(184, 106, 50) 30%,
+                    rgb(224, 218, 218) 30%,
+                    rgb(224, 218, 218) 50%,
+                    rgb(184, 106, 50) 50%,
+                    rgb(184, 106, 50) 100%);
+            position: absolute;
+            border-radius: 300px 300px 0 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="clock2">
+            <div id="plate">
+                <div id="hour">
+                    <img src="./img/hour2.png">
+                </div>
+                <div id="minute">
+                    <img src="./img/min2.png">
+                </div>
+                <div id="center"></div>
+            </div>
+            <img id="number" src="./img/number.png">
+            <div id="edge"></div>
+            <div id="body"></div>
+            <div id="bell">
+                <img src="./img/pendulum.png">
+            </div>
+            <div id="foot"></div>
+        </div>
+    </div>
+
+    <script>
+        const elHour = document.getElementById('hour')
+        const elMinute = document.getElementById('minute')
+        const elText = document.getElementById('text')
+        const elBell = document.getElementById('bell')
+
+        const clock = () => {
+            const date = new Date()
+            const hour = date.getHours()
+            const minute = date.getMinutes()
+            elHour.style.transform = `rotate(${hour * 30 + 90}deg)`
+            elMinute.style.transform = `rotate(${minute * 6 + 90}deg)`
+        };
+
+        setInterval(clock, 1000);
+        clock();
+
+        const swing = () => {
+            const rotation = elBell.style.transform.replace('rotate(', '').replace('deg)', '');
+            const currentRotation = rotation ? parseFloat(rotation) : 0;
+            const newRotation = currentRotation === 10 ? -10 : 10;
+            elBell.style.transform = `rotate(${newRotation}deg)`;
+        }
+
+        setInterval(swing, 2000);
+        swing();
+    </script>
+</body>
+
+</html>
